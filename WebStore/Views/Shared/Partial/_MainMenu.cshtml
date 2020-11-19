@@ -1,0 +1,21 @@
+﻿<ul class="nav navbar-nav collapse navbar-collapse">
+    <li><a asp-controller="Home" asp-action="Index" class="active">Главная</a></li>
+    <li class="dropdown">
+        <a asp-controller="Catalog" asp-action="Shop">Магазин<i class="fa fa-angle-down"></i></a>
+        <ul role="menu" class="sub-menu">
+            <li><a asp-controller="Catalog" asp-action="Shop">Каталог товаров</a></li>
+            <li><a asp-controller="Home" asp-action="Checkout">Оформление заказа</a></li>
+            <li><a asp-controller="Cart" asp-action="Details">Корзина</a></li>
+        </ul>
+    </li>
+    <li class="dropdown">
+        <a asp-controller="Home" asp-action="Blogs">Блоги<i class="fa fa-angle-down"></i></a>
+        <ul role="menu" class="sub-menu">
+            <li><a asp-controller="Home" asp-action="Blogs">Список блогов</a></li>
+            <li><a asp-controller="Home" asp-action="BlogSingle">Блог магазина</a></li>
+        </ul>
+    </li>
+    <li><a asp-controller="Home" asp-action="Error404">Ошибка 404</a></li>
+    <li><a asp-controller="Home" asp-action="ContactUs">Контакты</a></li>
+    <li><a asp-controller="Employees" asp-action="Index">Сотрудники</a></li>
+</ul>

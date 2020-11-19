@@ -1,0 +1,64 @@
+﻿@using WebStore.Domain.Entities.Identity
+@model IEnumerable<EmployeesViewModel>
+
+<div class="container">
+    <h3>Сотрудники</h3>
+
+    <hr />
+    <a asp-action="Edit" class="btn btn-primary">Новый сотрудник</a>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Id</th>
+                <th>Фамилия</th>
+                <th>Имя</th>
+                <th>Отчество</th>
+                <th>Возраст</th>
+                <th>Начало работы</th>
+                @if (User.IsInRole(Role.Administrator))
+                {
+                    <th></th>
+                    <th></th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var employee in Model)
+            {
+                <tr>
+                    <td>
+                        <a asp-controller="Employees" asp-action="Details" asp-route-id="@employee.Id"
+                           class="btn btn-sm btn-default">
+                            <i class="fa fa-info"></i>
+                        </a>
+                    </td>
+                    <td>@employee.Id</td>
+                    <td>@employee.LastName</td>
+                    <td>@employee.FirstName</td>
+                    <td>@employee.Patronymic</td>
+                    <td>@employee.Age</td>
+                    <td>@employee.EmployementDate</td>
+                    @if (User.IsInRole(Role.Administrator))
+                    {
+                        <td>
+                            <a asp-controller="Employees" asp-action="Edit" asp-route-id="@employee.Id"
+                               class="btn btn-sm btn-default">
+                                <i class="fa fa-edit"></i>
+                            </a>
+                        </td>
+                        <td>
+                            <form asp-action="DeleteConfirmed" asp-route-id="@employee.Id">
+                                <input type="submit" value="del" class="btn-danger"/>
+                            </form>
+                        </td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <hr />
+    <a href="~/">На главную</a>
+</div>

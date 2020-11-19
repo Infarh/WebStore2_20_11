@@ -1,0 +1,74 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "jquery@3.5.1",
+      "destination": "wwwroot/lib/jquery/"
+    },
+    {
+      "library": "twitter-bootstrap@3.0.3",
+      "destination": "wwwroot/lib/bootstrap/",
+      "files": [
+        "js/affix.js",
+        "js/affix.min.js",
+        "js/alert.js",
+        "js/alert.min.js",
+        "js/bootstrap.js",
+        "js/bootstrap.min.js",
+        "js/button.js",
+        "js/button.min.js",
+        "js/carousel.js",
+        "js/carousel.min.js",
+        "js/collapse.js",
+        "js/collapse.min.js",
+        "js/dropdown.js",
+        "js/dropdown.min.js",
+        "js/modal.js",
+        "js/modal.min.js",
+        "js/popover.js",
+        "js/popover.min.js",
+        "js/scrollspy.js",
+        "js/scrollspy.min.js",
+        "js/tab.js",
+        "js/tab.min.js",
+        "js/tooltip.js",
+        "js/tooltip.min.js",
+        "js/transition.js",
+        "js/transition.min.js",
+        "css/bootstrap-theme.css",
+        "css/bootstrap-theme.min.css",
+        "css/bootstrap.css",
+        "css/bootstrap.min.css"
+      ]
+    },
+    {
+      "library": "prettyPhoto@3.1.6",
+      "destination": "wwwroot/lib/prettyPhoto/"
+    },
+    {
+      "library": "animate.css@4.1.0",
+      "destination": "wwwroot/lib/animate.css/"
+    },
+    {
+      "library": "responsive@1.0.5",
+      "destination": "wwwroot/lib/responsive/"
+    },
+    {
+      "library": "font-awesome@4.0.3",
+      "destination": "wwwroot/lib/font-awesome/"
+    },
+    {
+      "library": "html5shiv@3.7.3",
+      "destination": "wwwroot/lib/html5shiv/"
+    },
+    {
+      "library": "gmaps.js@0.4.25",
+      "destination": "wwwroot/lib/gmaps.js/"
+    },
+    {
+      "library": "scrollup@2.4.1",
+      "destination": "wwwroot/lib/scrollup/"
+    }
+  ]
+}

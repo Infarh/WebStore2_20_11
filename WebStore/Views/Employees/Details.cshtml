@@ -1,0 +1,36 @@
+﻿@using WebStore.Domain.Entities.Identity
+@model EmployeesViewModel
+
+    <div class="container">
+        <h3>Сотрудник</h3>
+
+        <dl class="dl-horizontal">
+            <dt>Id</dt>
+            <dd>@Model.Id</dd>
+
+            <dt><label asp-for="LastName"></label></dt>
+            <dd>@Model.LastName</dd>
+
+            <dt><label asp-for="FirstName"></label></dt>
+            <dd>@Model.FirstName</dd>
+
+            <dt><label asp-for="Patronymic"></label></dt>
+            <dd>@Model.Patronymic</dd>
+
+            <dt><label asp-for="Age"></label></dt>
+            <dd>@Model.Age</dd>
+
+            <dt><label asp-for="EmployementDate"></label></dt>
+            <dd>@Model.EmployementDate</dd>
+        </dl>
+
+        <hr />
+        <div>
+            <a asp-controller="Employees" asp-action="Index" class="btn btn-info">К списку</a>
+            @if (User.IsInRole(Role.Administrator))
+            {
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-success">Редактировать</a>
+                <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Удалить!</a>
+            }
+        </div>
+    </div>
