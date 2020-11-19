@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WebStore.Domain.Entities.Identity;
@@ -22,9 +23,11 @@ namespace WebStore.Controllers
         public IActionResult Register() => View(new RegisterUserViewModel());
 
         [HttpPost, ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(RegisterUserViewModel Model)
+        public async Task<IActionResult> Register(RegisterUserViewModel Model/*, [FromServices] IMapper Mapper*/)
         {
             if (!ModelState.IsValid) return View(Model);
+
+            //var new_user = Mapper.Map<User>(Model);
 
             var user = new User
             {
@@ -36,7 +39,7 @@ namespace WebStore.Controllers
             {
                 await _UserManager.AddToRoleAsync(user, Role.User);
 
-                await _SignInManager.SignInAsync(user, false);
+                await _SignInManager.SignInAsync(user, isPersistent: false);
                 return RedirectToAction("Index", "Home");
             }
 
@@ -61,7 +64,7 @@ namespace WebStore.Controllers
                 Model.UserName,
                 Model.Password,
                 Model.RememberMe,
-                false);
+                lockoutOnFailure: false);
 
             if (login_result.Succeeded)
             {

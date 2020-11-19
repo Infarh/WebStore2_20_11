@@ -1,4 +1,4 @@
-using System;
+п»їusing System;
 using System.IO;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
@@ -69,8 +69,8 @@ namespace WebStore
             services.AddControllersWithViews(opt =>
             {
                 //opt.Filters.Add<Filter>();
-                //opt.Conventions.Add(); // Добавление/изменение соглашений MVC-приложения
-            }).AddRazorRuntimeCompilation();
+                //opt.Conventions.Add(); // Р”РѕР±Р°РІР»РµРЅРёРµ/РёР·РјРµРЅРµРЅРёРµ СЃРѕРіР»Р°С€РµРЅРёР№ MVC-РїСЂРёР»РѕР¶РµРЅРёСЏ
+            }).AddRazorRuntimeCompilation(); // NuGet:Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation
 
             //services.AddScoped<IEmployeesData, InMemoryEmployeesData>();
             services.AddScoped<IEmployeesData, SqlEmployeesData>();
@@ -91,7 +91,7 @@ namespace WebStore
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseBrowserLink();
+                app.UseBrowserLink(); //NuGet: Microsoft.VisualStudio.Web.BrowserLink
             }
 
             app.UseStaticFiles();
@@ -106,9 +106,9 @@ namespace WebStore
 
             //app.Use(async (context, next) =>
             //{
-            //    //Действия над context до следующего элемента в конвейере
-            //    await next(); // Вызов следующего промежуточного ПО в конвейере
-            //    // Действия над context после следующего элемента в конвейере
+            //    //Р”РµР№СЃС‚РІРёСЏ РЅР°Рґ context РґРѕ СЃР»РµРґСѓСЋС‰РµРіРѕ СЌР»РµРјРµРЅС‚Р° РІ РєРѕРЅРІРµР№РµСЂРµ
+            //    await next(); // Р’С‹Р·РѕРІ СЃР»РµРґСѓСЋС‰РµРіРѕ РїСЂРѕРјРµР¶СѓС‚РѕС‡РЅРѕРіРѕ РџРћ РІ РєРѕРЅРІРµР№РµСЂРµ
+            //    // Р”РµР№СЃС‚РІРёСЏ РЅР°Рґ context РїРѕСЃР»Рµ СЃР»РµРґСѓСЋС‰РµРіРѕ СЌР»РµРјРµРЅС‚Р° РІ РєРѕРЅРІРµР№РµСЂРµ
             //});
 
             //app.UseMiddleware<TestMiddleware>();
