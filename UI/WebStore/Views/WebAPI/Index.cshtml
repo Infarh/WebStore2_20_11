@@ -1,0 +1,29 @@
+﻿@model IEnumerable<string>
+@{
+    ViewData["Title"] = "Тест WebAPI";
+}
+
+<div class="container">
+    <h3>Тест WebAPI</h3>
+    <hr />
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{ var i = 1; }
+            @foreach (var value in Model)
+            {
+                <tr>
+                    <td>@(i++)</td>
+                    <td>@value</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
