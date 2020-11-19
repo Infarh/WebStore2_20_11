@@ -40,6 +40,8 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Common\WebStore.Domain\WebStore.Domain.csproj" />
     <ProjectReference Include="..\..\Servcies\WebStore.DAL\WebStore.DAL.csproj" />
+    <ProjectReference Include="..\..\Servcies\WebStore.Interfaces\WebStore.Interfaces.csproj" />
+    <ProjectReference Include="..\..\Servcies\WebStore.Services\WebStore.Services.csproj" />
   </ItemGroup>
 
 </Project>
