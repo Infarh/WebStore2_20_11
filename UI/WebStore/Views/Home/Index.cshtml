@@ -5,6 +5,7 @@
     var products = ProductData
         .GetProducts()
         .Take(6)
+        .FromDTO()
         .ToView()
         .OrderBy(p => p.Order);
 }
