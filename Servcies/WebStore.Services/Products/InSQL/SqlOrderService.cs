@@ -34,6 +34,7 @@ namespace WebStore.Services.Products.InSQL
 
         public async Task<OrderDTO> GetOrderById(int id) => (await _db.Orders
                .Include(order => order.User)
+               .Include(order => order.Items)
                .FirstOrDefaultAsync(order => order.Id == id))
            .ToDTO();
 
