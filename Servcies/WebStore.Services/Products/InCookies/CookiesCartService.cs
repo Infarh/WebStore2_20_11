@@ -47,8 +47,8 @@ namespace WebStore.Services.Products.InCookies
             _HttpContextAccessor = HttpContextAccessor;
 
             var user = HttpContextAccessor.HttpContext.User;
-            var user_name = user.Identity.IsAuthenticated ? $"[{user.Identity.Name}]" : null;
-            _CartName = $"WebStore.Cart{user_name}";
+            var user_name = user.Identity.IsAuthenticated ? $"{user.Identity.Name}" : null;
+            _CartName = $"WebStore.Cart-{user_name}";
         }
 
         public void AddToCart(int id)
@@ -106,7 +106,7 @@ namespace WebStore.Services.Products.InCookies
                 Ids = Cart.Items.Select(item => item.ProductId).ToArray()
             });
 
-            var products_view_models = products.ToView().ToDictionary(p => p.Id);
+            var products_view_models = products.FromDTO().ToView().ToDictionary(p => p.Id);
 
             return new CartViewModel
             {

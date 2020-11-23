@@ -1,7 +1,5 @@
 ﻿using System;
-using System.IO;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -9,6 +7,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using WebStore.Clients.Employees;
+using WebStore.Clients.Orders;
+using WebStore.Clients.Products;
 using WebStore.Clients.Values;
 using WebStore.DAL.Context;
 using WebStore.Domain.Entities.Identity;
@@ -20,16 +21,12 @@ using WebStore.Services.Products.InSQL;
 
 namespace WebStore
 {
-    public class Startup
+    public sealed record Startup(IConfiguration Configuration)
     {
-        private readonly IConfiguration _Configuration;
-
-        public Startup(IConfiguration Configuration) => _Configuration = Configuration;
-
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<WebStoreDB>(opt => 
-                opt.UseSqlServer(_Configuration.GetConnectionString("DefaultConnection")));
+                opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddTransient<WebStoreDBInitializer>();
 
             services.AddIdentity<User, Role>(opt => {  })
@@ -75,11 +72,14 @@ namespace WebStore
             }).AddRazorRuntimeCompilation(); // NuGet:Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation
 
             //services.AddScoped<IEmployeesData, InMemoryEmployeesData>();
-            services.AddScoped<IEmployeesData, SqlEmployeesData>();
+            //services.AddScoped<IEmployeesData, SqlEmployeesData>();
+            services.AddScoped<IEmployeesData, EmployeesClient>();
             //services.AddScoped<IProductData, InMemoryProductData>();
-            services.AddScoped<IProductData, SqlProductData>();
+            //services.AddScoped<IProductData, SqlProductData>();
+            services.AddScoped<IProductData, ProductsClient>();
             services.AddScoped<ICartService, CookiesCartService>();
-            services.AddScoped<IOrderService, SqlOrderService>();
+            //services.AddScoped<IOrderService, SqlOrderService>();
+            services.AddScoped<IOrderService, OrdersClient>();
 
             services.AddTransient<IValueService, ValuesClient>();
 
@@ -121,7 +121,7 @@ namespace WebStore
             {
                 endpoints.MapGet("/greetings", async context =>
                 {
-                    await context.Response.WriteAsync(_Configuration["CustomGreetings"]);
+                    await context.Response.WriteAsync(Configuration["CustomGreetings"]);
                 });
 
                 endpoints.MapControllerRoute(
