@@ -1,7 +1,5 @@
 ﻿using System;
-using System.IO;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -20,16 +18,12 @@ using WebStore.Services.Products.InSQL;
 
 namespace WebStore
 {
-    public class Startup
+    public sealed record Startup(IConfiguration Configuration)
     {
-        private readonly IConfiguration _Configuration;
-
-        public Startup(IConfiguration Configuration) => _Configuration = Configuration;
-
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<WebStoreDB>(opt => 
-                opt.UseSqlServer(_Configuration.GetConnectionString("DefaultConnection")));
+                opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddTransient<WebStoreDBInitializer>();
 
             services.AddIdentity<User, Role>(opt => {  })
@@ -121,7 +115,7 @@ namespace WebStore
             {
                 endpoints.MapGet("/greetings", async context =>
                 {
-                    await context.Response.WriteAsync(_Configuration["CustomGreetings"]);
+                    await context.Response.WriteAsync(Configuration["CustomGreetings"]);
                 });
 
                 endpoints.MapControllerRoute(
