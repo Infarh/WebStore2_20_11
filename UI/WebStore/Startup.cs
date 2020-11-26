@@ -1,23 +1,19 @@
 ﻿using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using WebStore.Clients.Employees;
+using WebStore.Clients.Identity;
 using WebStore.Clients.Orders;
 using WebStore.Clients.Products;
 using WebStore.Clients.Values;
-using WebStore.DAL.Context;
 using WebStore.Domain.Entities.Identity;
 using WebStore.Interfaces.Services;
 using WebStore.Interfaces.TestApi;
-using WebStore.Services.Data;
 using WebStore.Services.Products.InCookies;
-using WebStore.Services.Products.InSQL;
 
 namespace WebStore
 {
@@ -25,13 +21,26 @@ namespace WebStore
     {
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<WebStoreDB>(opt => 
-                opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddTransient<WebStoreDBInitializer>();
-
-            services.AddIdentity<User, Role>(opt => {  })
-               .AddEntityFrameworkStores<WebStoreDB>()
+            services
+               .AddIdentity<User, Role>()
                .AddDefaultTokenProviders();
+
+            #region Custom Identity clients stores
+
+            services
+               .AddTransient<IUserStore<User>, UsersClient>()
+               .AddTransient<IUserRoleStore<User>, UsersClient>()
+               .AddTransient<IUserPasswordStore<User>, UsersClient>()
+               .AddTransient<IUserEmailStore<User>, UsersClient>()
+               .AddTransient<IUserPhoneNumberStore<User>, UsersClient>()
+               .AddTransient<IUserTwoFactorStore<User>, UsersClient>()
+               .AddTransient<IUserClaimStore<User>, UsersClient>()
+               .AddTransient<IUserLoginStore<User>, UsersClient>();
+
+            services
+               .AddTransient<IRoleStore<Role>, RolesClient>();
+
+            #endregion
 
             services.Configure<IdentityOptions>(opt =>
             {
@@ -65,37 +74,24 @@ namespace WebStore
                 opt.SlidingExpiration = true;
             });
 
-            services.AddControllersWithViews(opt =>
-            {
-                //opt.Filters.Add<Filter>();
-                //opt.Conventions.Add(); // Добавление/изменение соглашений MVC-приложения
-            }).AddRazorRuntimeCompilation(); // NuGet:Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation
+            services
+               .AddControllersWithViews()
+               .AddRazorRuntimeCompilation();
 
-            //services.AddScoped<IEmployeesData, InMemoryEmployeesData>();
-            //services.AddScoped<IEmployeesData, SqlEmployeesData>();
             services.AddScoped<IEmployeesData, EmployeesClient>();
-            //services.AddScoped<IProductData, InMemoryProductData>();
-            //services.AddScoped<IProductData, SqlProductData>();
             services.AddScoped<IProductData, ProductsClient>();
             services.AddScoped<ICartService, CookiesCartService>();
-            //services.AddScoped<IOrderService, SqlOrderService>();
             services.AddScoped<IOrderService, OrdersClient>();
 
             services.AddTransient<IValueService, ValuesClient>();
-
-            //services.AddTransient<TInterface, TService>();
-            //services.AddScoped<TInterface, TService>();
-            //services.AddSingleton<TInterface, TService>();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, WebStoreDBInitializer db)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-           db.Initialize();
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseBrowserLink(); //NuGet: Microsoft.VisualStudio.Web.BrowserLink
+                app.UseBrowserLink();
             }
 
             app.UseStaticFiles();
@@ -108,25 +104,11 @@ namespace WebStore
 
             app.UseWelcomePage("/welcome");
 
-            //app.Use(async (context, next) =>
-            //{
-            //    //Действия над context до следующего элемента в конвейере
-            //    await next(); // Вызов следующего промежуточного ПО в конвейере
-            //    // Действия над context после следующего элемента в конвейере
-            //});
-
-            //app.UseMiddleware<TestMiddleware>();
-
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGet("/greetings", async context =>
-                {
-                    await context.Response.WriteAsync(Configuration["CustomGreetings"]);
-                });
-
                 endpoints.MapControllerRoute(
                     name: "areas",
-                    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}" // http://localhost:5000/admin/home/index
+                    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
                 );
 
                 endpoints.MapControllerRoute(
