@@ -14,8 +14,6 @@ namespace WebStore.Controllers
 
         public IActionResult BlogSingle() => View();
 
-        public IActionResult Checkout() => View();
-
         public IActionResult ContactUs() => View();
 
         public IActionResult Error404() => View();
