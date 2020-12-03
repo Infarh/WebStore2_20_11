@@ -37,8 +37,8 @@ namespace WebStore.Services.Products
             var item = cart.Items.FirstOrDefault(i => i.ProductId == id);
             if(item is null) return;
 
-            if (item.Quantity > 0)
-                item.Quantity--;
+            //if (item.Quantity > 0)
+            //    item.Quantity--;
 
             if (item.Quantity == 0)
                 cart.Items.Remove(item);
