@@ -30,6 +30,7 @@ namespace WebStore.Tests.Controllers
                .Setup(service => service.Get())
                .Returns(expected_values);
 
+            // Режим "Стаб"
             var controller = new WebAPIController(values_service_mock.Object);
 
             var result = controller.Index();
@@ -38,6 +39,11 @@ namespace WebStore.Tests.Controllers
             var model = Assert.IsAssignableFrom<IEnumerable<string>>(view_result.Model);
 
             Assert.Equal(expected_values.Length, model.Count());
+
+            // Режим "Мок"
+
+            values_service_mock.Verify(service => service.Get());
+            values_service_mock.VerifyNoOtherCalls();
         }
     }
 }
