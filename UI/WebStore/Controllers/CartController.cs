@@ -1,7 +1,9 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
 using WebStore.Domain.DTO.Order;
 using WebStore.Domain.ViewModels;
 using WebStore.Interfaces.Services;
@@ -55,11 +57,11 @@ namespace WebStore.Controllers
                 Order = OrderModel,
                 Items = _CartService.TransformFromCart().Items
                    .Select(item => new OrderItemDTO
-                    {
-                        Id = item.Product.Id,
-                        Price = item.Product.Price,
-                        Quantity = item.Quantity
-                    })
+                   {
+                       Id = item.Product.Id,
+                       Price = item.Product.Price,
+                       Quantity = item.Quantity
+                   })
                    .ToList()
             };
 
@@ -76,5 +78,35 @@ namespace WebStore.Controllers
             ViewBag.OrderId = id;
             return View();
         }
+
+        #region WebAPI
+
+        public IActionResult GetCartView() => ViewComponent("Cart");
+
+        public IActionResult AddToCartAPI(int id)
+        {
+            _CartService.AddToCart(id);
+            return Json(new { id, message = $"Товар с id:{id} был добавлен в корзину" });
+        }
+
+        public IActionResult DecrementFromCartAPI(int id)
+        {
+            _CartService.DecrementFromCart(id);
+            return Ok();
+        }
+
+        public IActionResult RemoveFromCartAPI(int id)
+        {
+            _CartService.RemoveFromCart(id);
+            return Ok();
+        }
+
+        public IActionResult ClearAPI()
+        {
+            _CartService.Clear();
+            return Ok();
+        }
+
+        #endregion
     }
 }

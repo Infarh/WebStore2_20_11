@@ -32,7 +32,7 @@
                                 </h4>
                                 <p>Артикул: @product.Id.ToString("0000000")</p>
                             </td>
-                            <td class="cart_price">
+                            <td class="cart_price" data-price="@product.Price">
                                 <p>@product.Price.ToString("C")</p>
                             </td>
                             <td class="cart_quantity">
@@ -40,6 +40,7 @@
                                     <a asp-controller="Cart"
                                        asp-action="AddToCart"
                                        asp-route-id="@product.Id"
+                                       data-id="@product.Id"
                                        class="cart_quantity_up">
                                          +
                                     </a>
@@ -52,18 +53,23 @@
                                     <a asp-controller="Cart"
                                        asp-action="DecrementFromCart"
                                        asp-route-id="@product.Id"
+                                       data-id="@product.Id"
                                        class="cart_quantity_down">
                                          -
                                     </a>
                                 </div>
                             </td>
                             <td class="cart_total">
-                                <p class="cart_total_price">@((product.Price * quantity).ToString("C"))</p>
+                                <p class="cart_total_price"
+                                   data-price="@(product.Price * quantity)">
+                                    @((product.Price * quantity).ToString("C"))
+                                </p>
                             </td>
                             <td class="cart_delete">
                                 <a asp-controller="Cart"
                                    asp-action="RemoveFromCart"
                                    asp-route-id="@product.Id"
+                                   data-id="@product.Id"
                                    class="cart_quantity_delete">
                                     <i class="fa fa-times"></i>
                                 </a>

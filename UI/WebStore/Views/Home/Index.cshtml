@@ -3,7 +3,7 @@
 @inject IProductData ProductData
 @{
     var products = ProductData
-        .GetProducts()
+        .GetProducts().Products
         .Take(6)
         .FromDTO()
         .ToView()
