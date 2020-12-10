@@ -5,6 +5,10 @@ namespace WebStore.Components
 {
     public class CartViewComponent : ViewComponent
     {
-        public IViewComponentResult Invoke([FromServices] ICartService CartService) => View(CartService.TransformFromCart());
+        private readonly ICartService _CartService;
+
+        public CartViewComponent(ICartService CartService) => _CartService = CartService;
+
+        public IViewComponentResult Invoke() => View(_CartService.TransformFromCart());
     }
 }
