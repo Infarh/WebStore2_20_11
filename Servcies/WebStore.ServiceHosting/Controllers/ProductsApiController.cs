@@ -27,7 +27,7 @@ namespace WebStore.ServiceHosting.Controllers
         public BrandDTO GetBrandById(int id) => _ProductData.GetBrandById(id);
 
         [HttpPost]
-        public IEnumerable<ProductDTO> GetProducts([FromBody] ProductFilter Filter = null) => 
+        public PageProductsDTO GetProducts([FromBody] ProductFilter Filter = null) => 
             _ProductData.GetProducts(Filter ?? new ProductFilter());
 
         [HttpGet("{id}")]

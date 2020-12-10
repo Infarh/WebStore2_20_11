@@ -122,7 +122,11 @@ namespace WebStore.Tests.Controllers
             var product_data_mock = new Mock<IProductData>();
             product_data_mock
                .Setup(p => p.GetProducts(It.IsAny<ProductFilter>()))
-               .Returns(products);
+               .Returns(new PageProductsDTO
+                {
+                    Products = products,
+                    TotalCount = products.Length
+               });
 
             const int expected_section_id = 1;
             const int expected_brand_id = 5;

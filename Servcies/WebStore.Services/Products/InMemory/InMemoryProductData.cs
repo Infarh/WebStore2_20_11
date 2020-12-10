@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+
 using WebStore.Domain;
 using WebStore.Domain.DTO.Products;
 using WebStore.Domain.Entities;
@@ -21,7 +22,7 @@ namespace WebStore.Services.Products.InMemory
 
         public BrandDTO GetBrandById(int id) => TestData.Brands.FirstOrDefault(b => b.Id == id).ToDTO();
 
-        public IEnumerable<ProductDTO> GetProducts(ProductFilter Filter = null)
+        public PageProductsDTO GetProducts(ProductFilter Filter = null)
         {
             var query = TestData.Products;
 
@@ -31,7 +32,19 @@ namespace WebStore.Services.Products.InMemory
             if (Filter?.BrandId != null)
                 query = query.Where(product => product.BrandId == Filter.BrandId);
 
-            return query.ToDTO();
+            var total_count = query.Count();
+
+            if (Filter?.PageSize > 0)
+                query = query
+                   .Skip((Filter.Page - 1) * (int) Filter.PageSize)
+                   .Take((int) Filter.PageSize);
+
+
+            return new PageProductsDTO
+            {
+                TotalCount = total_count,
+                Products = query.ToDTO()
+            };
         }
 
         public ProductDTO GetProductById(int id) => TestData.Products.FirstOrDefault(p => p.Id == id).ToDTO();
