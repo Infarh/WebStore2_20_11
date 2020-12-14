@@ -17,7 +17,14 @@
     <li><a asp-controller="Home" asp-action="Error404">Ошибка 404</a></li>
     <li><a asp-controller="Home" asp-action="ContactUs" class="@IsActive("Home", "ContactUs")">Контакты</a></li>
     <li><a is-active-route asp-controller="Employees" asp-action="Index">Сотрудники</a></li>
-    <li><a is-active-route asp-controller="WebAPI" asp-action="Index">WebAPI</a></li>
+    <li class="dropdown">
+        <a href="#">Тесты<i class="fa fa-angle-down"></i></a>
+        <ul role="menu" class="sub-menu">
+            <li><a is-active-route asp-controller="WebAPI" asp-action="Index">WebAPI</a></li>
+            <li><a is-active-route asp-controller="AjaxTest" asp-action="Index">AJAX</a></li>
+            <li><a is-active-route asp-controller="AjaxTest" asp-action="SignalRTest">SignalR</a></li>
+        </ul>
+    </li>
 </ul>
 
 @functions
