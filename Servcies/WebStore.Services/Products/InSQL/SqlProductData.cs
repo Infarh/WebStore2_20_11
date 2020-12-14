@@ -44,7 +44,7 @@ namespace WebStore.Services.Products.InSQL
             var total_count = query.Count();
 
             if (Filter?.PageSize > 0)
-                query = query
+                query = query.OrderBy(p => p.Order)
                    .Skip((Filter.Page - 1) * (int)Filter.PageSize)
                    .Take((int)Filter.PageSize);
 
